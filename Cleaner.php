@@ -27,67 +27,83 @@ class Cleaner {
 
 	private function __construct() {
 
-		// // Cleanup wp_head()
-		// Display the link to the Really Simple Discovery service endpoint.
-		remove_action( 'wp_head', 'rsd_link' );
-		// Display the link to the Windows Live Writer manifest file.
-		remove_action( 'wp_head', 'wlwmanifest_link' );
-		// Display relational links for the posts adjacent to the current post for single post pages.
-		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
-		// Output rel=canonical for singular queries.
-		remove_action( 'wp_head', 'rel_canonical' );
-		remove_action( 'embed_head', 'rel_canonical' );
-		// Inject rel=shortlink into head if a shortlink is defined for the current page.
-		remove_action( 'wp_head', 'wp_shortlink_wp_head' );
-		// Display the XHTML generator that is generated on the wp_head hook
-		remove_action( 'wp_head', 'wp_generator' );
-		// Emoji support detection script and styles
-		remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
-		remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
-		remove_action( 'embed_head', 'print_emoji_detection_script', 7 );
-		remove_action( 'admin_print_styles', 'print_emoji_styles' );
-		remove_action( 'wp_print_styles', 'print_emoji_styles' );
-		remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
-		remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
-		remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
+		if ( current_theme_supports( 'tpc_wp_head' ) ) {
+			// // Cleanup wp_head()
+			// Display the link to the Really Simple Discovery service endpoint.
+			remove_action( 'wp_head', 'rsd_link' );
+			// Display the link to the Windows Live Writer manifest file.
+			remove_action( 'wp_head', 'wlwmanifest_link' );
+			// Display relational links for the posts adjacent to the current post for single post pages.
+			remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
+			// Output rel=canonical for singular queries.
+			remove_action( 'wp_head', 'rel_canonical' );
+			remove_action( 'embed_head', 'rel_canonical' );
+			// Inject rel=shortlink into head if a shortlink is defined for the current page.
+			remove_action( 'wp_head', 'wp_shortlink_wp_head' );
+			// Display the XHTML generator that is generated on the wp_head hook
+			remove_action( 'wp_head', 'wp_generator' );
+			// Emoji support detection script and styles
+			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+			remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+			remove_action( 'embed_head', 'print_emoji_detection_script', 7 );
+			remove_action( 'admin_print_styles', 'print_emoji_styles' );
+			remove_action( 'wp_print_styles', 'print_emoji_styles' );
+			remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
+			remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
+			remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
 
-		remove_action( 'wp_head', 'wp_oembed_add_discovery_links' );
-		remove_action( 'wp_head', 'wp_oembed_add_host_js' );
-		remove_action( 'wp_head', 'rest_output_link_wp_head' );
+			remove_action( 'wp_head', 'wp_oembed_add_discovery_links' );
+			remove_action( 'wp_head', 'wp_oembed_add_host_js' );
+			remove_action( 'wp_head', 'rest_output_link_wp_head' );
 
-		// Remove the link to comments feed
-		add_filter( 'feed_links_show_comments_feed', '__return_false' );
-
-		if ( ! is_admin() ) {
-			// Query strings from static resources
-			add_filter( 'style_loader_src', array( $this, 'query_strings' ), 15 );
-			add_filter( 'script_loader_src', array( $this, 'query_strings' ), 15 );
-
-			// Output of <link> and <script> tags
-			add_filter( 'style_loader_tag', array( $this, 'style_tag' ) );
-			add_filter( 'script_loader_tag', array( $this, 'script_tag' ) );
+			// Remove the link to comments feed
+			add_filter( 'feed_links_show_comments_feed', '__return_false' );
 		}
 
-		// Remove unnecessary body and post classes
-		add_filter( 'body_class', array( $this, 'body_class' ) );
-		add_filter( 'post_class', array( $this, 'post_class' ) );
+		if ( ! is_admin() ) {
+			if ( current_theme_supports( 'tpc_query_strings' ) ) {
+				// Query strings from static resources
+				add_filter( 'style_loader_src', array( $this, 'query_strings' ), 15 );
+				add_filter( 'script_loader_src', array( $this, 'query_strings' ), 15 );
+			}
 
-		// Remove injected recent comments sidebar widget style
-		add_filter( 'show_recent_comments_widget_style', '__return_false' );
+			if ( current_theme_supports( 'tpc_dependency_tag' ) ) {
+				// Output of <link> and <script> tags
+				add_filter( 'style_loader_tag', array( $this, 'style_tag' ) );
+				add_filter( 'script_loader_tag', array( $this, 'script_tag' ) );
+			}
+		}
 
-		// Remove tag cloud inline style
-		add_filter( 'wp_generate_tag_cloud', array( $this, 'tag_cloud_inline_style' ) );
+		if ( current_theme_supports( 'tpc_unnecessary_class' ) ) {
+			// Remove unnecessary body and post classes
+			add_filter( 'body_class', array( $this, 'body_class' ) );
+			add_filter( 'post_class', array( $this, 'post_class' ) );
+		}
 
-		// Remove injected gallery shortcode style
-		add_filter( 'use_default_gallery_style', '__return_false' );
+		if ( current_theme_supports( 'tpc_extra_styles' ) ) {
+			// Remove injected recent comments sidebar widget style
+			add_filter( 'show_recent_comments_widget_style', '__return_false' );
 
-		// Remove URL where emoji SVG images are hosted
-		add_filter( 'emoji_svg_url', '__return_false' );
+			// Remove tag cloud inline style
+			add_filter( 'wp_generate_tag_cloud', array( $this, 'tag_cloud_inline_style' ) );
 
-		// Wrap embedded media for easier responsive styling
-		add_filter( 'embed_oembed_html', array( $this, 'embed_wrap' ), 10, 3 );
+			// Remove injected gallery shortcode style
+			add_filter( 'use_default_gallery_style', '__return_false' );
+		}
 
-		add_filter( 'wp_nav_menu_args', array( $this, 'clean_walker' ) );
+		if ( current_theme_supports( 'tpc_emoji_url' ) ) {
+			// Remove URL where emoji SVG images are hosted
+			add_filter( 'emoji_svg_url', '__return_false' );
+		}
+
+		if ( current_theme_supports( 'tpc_embed_wrap' ) ) {
+			// Wrap embedded media for easier responsive styling
+			add_filter( 'embed_oembed_html', array( $this, 'embed_wrap' ), 10, 3 );
+		}
+
+		if ( current_theme_supports( 'tpc_nav_walker' ) ) {
+			add_filter( 'wp_nav_menu_args', array( $this, 'clean_walker' ) );
+		}
 
 	}
 
