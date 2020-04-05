@@ -11,16 +11,16 @@ namespace ThemePlate;
 
 class Cleaner {
 
-	private static $_instance;
+	private static $instance;
 
 
-	public static function instance() {
+	public static function init() {
 
-		if ( ! isset( self::$_instance ) ) {
-			self::$_instance = new self();
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
 		}
 
-		return self::$_instance;
+		return self::$instance;
 
 	}
 
