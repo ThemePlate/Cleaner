@@ -63,21 +63,42 @@ class Cleaner {
 		if ( ! is_admin() ) {
 			if ( current_theme_supports( 'tpc_query_strings' ) ) {
 				// Query strings from static resources
-				add_filter( 'style_loader_src', array( $this, 'query_strings' ), 15 );
-				add_filter( 'script_loader_src', array( $this, 'query_strings' ), 15 );
+				$args = get_theme_support( 'tpc_query_strings' );
+
+				if ( empty( $args[0] ) || 'style' === $args[0] ) {
+					add_filter( 'style_loader_src', array( $this, 'query_strings' ), 15 );
+				}
+
+				if ( empty( $args[0] ) || 'script' === $args[0] ) {
+					add_filter( 'script_loader_src', array( $this, 'query_strings' ), 15 );
+				}
 			}
 
 			if ( current_theme_supports( 'tpc_dependency_tag' ) ) {
 				// Output of <link> and <script> tags
-				add_filter( 'style_loader_tag', array( $this, 'style_tag' ) );
-				add_filter( 'script_loader_tag', array( $this, 'script_tag' ) );
+				$args = get_theme_support( 'tpc_dependency_tag' );
+
+				if ( empty( $args[0] ) || 'style' === $args[0] ) {
+					add_filter( 'style_loader_tag', array( $this, 'style_tag' ) );
+				}
+
+				if ( empty( $args[0] ) || 'script' === $args[0] ) {
+					add_filter( 'script_loader_tag', array( $this, 'script_tag' ) );
+				}
 			}
 		}
 
 		if ( current_theme_supports( 'tpc_unnecessary_class' ) ) {
 			// Remove unnecessary body and post classes
-			add_filter( 'body_class', array( $this, 'body_class' ) );
-			add_filter( 'post_class', array( $this, 'post_class' ) );
+			$args = get_theme_support( 'tpc_unnecessary_class' );
+
+			if ( empty( $args[0] ) || 'body' === $args[0] ) {
+				add_filter( 'body_class', array( $this, 'body_class' ) );
+			}
+
+			if ( empty( $args[0] ) || 'post' === $args[0] ) {
+				add_filter( 'post_class', array( $this, 'post_class' ) );
+			}
 		}
 
 		if ( current_theme_supports( 'tpc_extra_styles' ) ) {
