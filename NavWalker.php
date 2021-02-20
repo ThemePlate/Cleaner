@@ -11,18 +11,15 @@ namespace ThemePlate;
 
 class NavWalker extends \Walker_Nav_Menu {
 
-	private $classes = array();
-	public $class    = array();
+	public $classes = array(
+		'sub-menu' => 'sub-menu',
+		'has-sub'  => 'has-sub',
+		'active'   => 'active',
+		'item'     => '',
+	);
 
 
 	public function __construct() {
-
-		$this->classes = array_merge( array(
-			'sub-menu' => 'sub-menu',
-			'has-sub'  => 'has-sub',
-			'active'   => 'active',
-			'item'     => '',
-		), $this->class );
 
 		add_filter( 'nav_menu_submenu_css_class', array( $this, 'submenu_css_class' ), 0 );
 		add_filter( 'nav_menu_css_class', array( $this, 'css_class' ), 0, 4 );
