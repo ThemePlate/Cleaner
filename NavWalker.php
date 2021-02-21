@@ -25,10 +25,12 @@ class NavWalker extends \Walker_Nav_Menu {
 
 		$this->classes = array_merge( $this->defaults, $this->classes );
 
-		add_filter( 'nav_menu_submenu_css_class', array( $this, 'submenu_css_class' ), 0, 3 );
-		add_filter( 'nav_menu_css_class', array( $this, 'css_class' ), 0, 4 );
-		add_filter( 'nav_menu_item_id', array( $this, 'item_id' ), 0, 4 );
-		add_filter( 'nav_menu_link_attributes', array( $this, 'link_attributes' ), 0, 4 );
+		$priority = $this->priority ?? 0;
+
+		add_filter( 'nav_menu_submenu_css_class', array( $this, 'submenu_css_class' ), $priority, 3 );
+		add_filter( 'nav_menu_css_class', array( $this, 'css_class' ), $priority, 4 );
+		add_filter( 'nav_menu_item_id', array( $this, 'item_id' ), $priority, 4 );
+		add_filter( 'nav_menu_link_attributes', array( $this, 'link_attributes' ), $priority, 4 );
 
 	}
 
