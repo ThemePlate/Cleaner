@@ -13,7 +13,10 @@
     },
     "autoload": {
         "psr-4": {
-            "ThemePlate\\": ""
-        }
+            "ThemePlate\\Cleaner\\": "src"
+        },
+        "files": [
+            "Cleaner.php"
+        ]
     }
 }
