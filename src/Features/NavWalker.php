@@ -3,7 +3,7 @@
 namespace ThemePlate\Cleaner\Features;
 
 use ThemePlate\Cleaner\BaseFeature;
-use ThemePlate\NavWalker as CleanWalker;
+use ThemePlate\NavWalker as ThemePlateNavWalker;
 
 class NavWalker extends BaseFeature {
 
@@ -27,12 +27,14 @@ class NavWalker extends BaseFeature {
 			$args['container'] = false;
 		}
 
-		if ( empty( $args['walker'] ) ) {
-			$args['walker'] = new CleanWalker();
-		}
+		if ( class_exists( ThemePlateNavWalker::class ) ) {
+			if ( empty( $args['walker'] ) ) {
+				$args['walker'] = new ThemePlateNavWalker();
+			}
 
-		if ( $args['walker'] instanceof CleanWalker && 'wp_page_menu' === $args['fallback_cb'] ) {
-			$args['fallback_cb'] = '\ThemePlate\NavWalker::fallback';
+			if ( $args['walker'] instanceof ThemePlateNavWalker && 'wp_page_menu' === $args['fallback_cb'] ) {
+				$args['fallback_cb'] = '\ThemePlate\NavWalker::fallback';
+			}
 		}
 
 		if ( empty( $args['items_wrap'] ) ) {
