@@ -18,11 +18,11 @@ class UnnecessaryClass extends BaseFeature {
 		// Remove unnecessary body and post classes
 		$args = $this->arguments();
 
-		if ( empty( $args[0] ) || 'body' === $args[0] ) {
+		if ( empty( $args[0] ) || in_array( 'body', $args[0], true ) ) {
 			add_filter( 'body_class', array( $this, 'body_class' ) );
 		}
 
-		if ( empty( $args[0] ) || 'post' === $args[0] ) {
+		if ( empty( $args[0] ) || in_array( 'post', $args[0], true ) ) {
 			add_filter( 'post_class', array( $this, 'post_class' ) );
 		}
 
