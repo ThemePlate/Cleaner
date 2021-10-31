@@ -1,7 +1,9 @@
 # ThemePlate Cleaner
 
+> A markup cleaner
+
 ```php
-add_action( 'after_setup_theme', array( 'ThemePlate\Cleaner', 'init' ) );
+add_action( 'after_setup_theme', array( 'ThemePlate\Cleaner', 'instance' ) );
 
 add_theme_support( 'tpc_wp_head' );
 add_theme_support( 'tpc_emoji_detection' );
