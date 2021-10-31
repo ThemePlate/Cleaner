@@ -33,8 +33,12 @@ class WPHead extends BaseFeature {
 		remove_action( 'wp_head', 'wp_oembed_add_host_js' );
 		remove_action( 'wp_head', 'rest_output_link_wp_head' );
 
+		remove_action( 'wp_head', 'feed_links_extra', 3 );
+
 		// Remove the link to comments feed
 		add_filter( 'feed_links_show_comments_feed', '__return_false' );
+
+		add_filter( 'the_generator', '__return_false' );
 
 	}
 

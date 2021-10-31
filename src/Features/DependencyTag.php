@@ -49,6 +49,8 @@ class DependencyTag extends BaseFeature {
 
 	public function script_tag( $input ): string {
 
+		$input = preg_replace( "/ id='[^']+'/", '', $input );
+
 		return str_replace( "type='text/javascript' ", '', $input );
 
 	}
