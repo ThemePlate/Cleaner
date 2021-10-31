@@ -20,13 +20,12 @@ class DependencyTag extends BaseFeature {
 		}
 
 		// Output of <link> and <script> tags
-		$args = $this->arguments();
 
-		if ( empty( $args[0] ) || in_array( 'style', $args[0], true ) ) {
+		if ( $this->enabled( 'style' ) ) {
 			add_filter( 'style_loader_tag', array( $this, 'style_tag' ) );
 		}
 
-		if ( empty( $args[0] ) || in_array( 'script', $args[0], true ) ) {
+		if ( $this->enabled( 'script' ) ) {
 			add_filter( 'script_loader_tag', array( $this, 'script_tag' ) );
 		}
 

@@ -26,6 +26,14 @@ abstract class BaseFeature {
 
 	}
 
+	protected function enabled( string $option ): bool {
+
+		$args = $this->arguments();
+
+		return empty( $args[0] ) || in_array( $option, $args[0], true );
+
+	}
+
 	abstract public function key(): string;
 
 	abstract public function action(): void;

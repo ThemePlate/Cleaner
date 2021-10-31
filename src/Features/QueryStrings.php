@@ -20,13 +20,12 @@ class QueryStrings extends BaseFeature {
 		}
 
 		// Query strings from static resources
-		$args = $this->arguments();
 
-		if ( empty( $args[0] ) || in_array( 'style', $args[0], true ) ) {
+		if ( $this->enabled( 'style' ) ) {
 			add_filter( 'style_loader_src', array( $this, 'query_strings' ), 15 );
 		}
 
-		if ( empty( $args[0] ) || in_array( 'script', $args[0], true ) ) {
+		if ( $this->enabled( 'script' ) ) {
 			add_filter( 'script_loader_src', array( $this, 'query_strings' ), 15 );
 		}
 

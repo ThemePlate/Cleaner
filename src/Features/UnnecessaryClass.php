@@ -16,13 +16,12 @@ class UnnecessaryClass extends BaseFeature {
 	public function action(): void {
 
 		// Remove unnecessary body and post classes
-		$args = $this->arguments();
 
-		if ( empty( $args[0] ) || in_array( 'body', $args[0], true ) ) {
+		if ( $this->enabled( 'body' ) ) {
 			add_filter( 'body_class', array( $this, 'body_class' ) );
 		}
 
-		if ( empty( $args[0] ) || in_array( 'post', $args[0], true ) ) {
+		if ( $this->enabled( 'post' ) ) {
 			add_filter( 'post_class', array( $this, 'post_class' ) );
 		}
 
