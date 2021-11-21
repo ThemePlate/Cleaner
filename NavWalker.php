@@ -58,7 +58,7 @@ class NavWalker extends Walker_Nav_Menu {
 	}
 
 
-	public function css_class( array $classes, WP_Post $item, stdClass $args ): array {
+	public function css_class( array $classes, WP_Post $item, stdClass $args, int $depth ): array {
 
 		$classes = array( $this->classes['item'] );
 
@@ -66,7 +66,7 @@ class NavWalker extends Walker_Nav_Menu {
 			$classes[] = $this->classes['has-sub'];
 		}
 
-		if ( $item->current ) {
+		if ( isset( $item->current ) ) {
 			$classes[] = $this->classes['active'];
 		}
 
@@ -75,7 +75,7 @@ class NavWalker extends Walker_Nav_Menu {
 	}
 
 
-	public function item_id( string $id, WP_Post $item, stdClass $args, int $depth ) {
+	public function item_id( string $id, WP_Post $item, stdClass $args, int $depth ): string {
 
 		if ( 'menu-item-' . $item->ID === $id ) {
 			$id = '';
