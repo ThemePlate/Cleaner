@@ -9,7 +9,9 @@
 
 namespace ThemePlate;
 
+use stdClass;
 use Walker_Nav_Menu;
+use WP_Post;
 
 if ( ! class_exists( 'Walker_Nav_Menu' ) ) {
 	return;
@@ -17,17 +19,17 @@ if ( ! class_exists( 'Walker_Nav_Menu' ) ) {
 
 class NavWalker extends Walker_Nav_Menu {
 
-	private $defaults = array(
+	private array $defaults = array(
 		'sub-menu' => 'sub-menu',
 		'has-sub'  => 'has-sub',
 		'active'   => 'active',
 		'item'     => '',
 	);
 
-	public $classes = array();
-	public $class   = array();
+	public array $classes = array();
+	public array $class   = array();
 
-	public $priority = 0;
+	public int $priority = 0;
 
 
 	public function __construct() {
@@ -42,21 +44,21 @@ class NavWalker extends Walker_Nav_Menu {
 	}
 
 
-	public function attributes( $item, $args ) {
+	public function attributes( $item, $args ): array {
 
 		return array();
 
 	}
 
 
-	public function submenu_css_class( $classes, $args, $depth ) {
+	public function submenu_css_class( array $classes, stdClass $args, int $depth ): array {
 
 		return array( $this->classes['sub-menu'] );
 
 	}
 
 
-	public function css_class( $classes, $item, $args ) {
+	public function css_class( array $classes, WP_Post $item, stdClass $args ): array {
 
 		$classes = array( $this->classes['item'] );
 
@@ -73,7 +75,7 @@ class NavWalker extends Walker_Nav_Menu {
 	}
 
 
-	public function item_id( $id, $item, $args, $depth ) {
+	public function item_id( string $id, WP_Post $item, stdClass $args, int $depth ) {
 
 		if ( 'menu-item-' . $item->ID === $id ) {
 			$id = '';
@@ -84,7 +86,7 @@ class NavWalker extends Walker_Nav_Menu {
 	}
 
 
-	public function link_attributes( $atts, $item, $args, $depth ) {
+	public function link_attributes( array $atts, WP_Post $item, stdClass $args, int $depth ): array {
 
 		$atts = array_merge( $atts, $this->attributes( $item, $args ) );
 
