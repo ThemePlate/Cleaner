@@ -42,13 +42,6 @@ class NavWalker extends Walker_Nav_Menu {
 	}
 
 
-	public function attributes( $item, $args ): array {
-
-		return array();
-
-	}
-
-
 	public function submenu_css_class( array $classes, stdClass $args, int $depth ): array {
 
 		if ( ! $args->walker instanceof $this ) {
@@ -102,7 +95,9 @@ class NavWalker extends Walker_Nav_Menu {
 			return $atts;
 		}
 
-		$atts = array_merge( $atts, $this->attributes( $menu_item, $args ) );
+		if ( method_exists( $this, 'attributes' ) ) {
+			$atts = array_merge( $atts, call_user_func_array( array( $this, 'attributes' ), func_get_args() ) );
+		}
 
 		return array_filter( $atts );
 
