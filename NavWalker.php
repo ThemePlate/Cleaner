@@ -53,12 +53,20 @@ class NavWalker extends Walker_Nav_Menu {
 
 	public function submenu_css_class( array $classes, stdClass $args, int $depth ): array {
 
+		if ( ! $args->walker instanceof $this ) {
+			return $classes;
+		}
+
 		return array( $this->classes['sub-menu'] );
 
 	}
 
 
 	public function css_class( array $classes, WP_Post $item, stdClass $args, int $depth ): array {
+
+		if ( ! $args->walker instanceof $this ) {
+			return $classes;
+		}
 
 		$classes = array( $this->classes['item'] );
 
@@ -77,6 +85,10 @@ class NavWalker extends Walker_Nav_Menu {
 
 	public function item_id( string $id, WP_Post $item, stdClass $args, int $depth ): string {
 
+		if ( ! $args->walker instanceof $this ) {
+			return $id;
+		}
+
 		if ( 'menu-item-' . $item->ID === $id ) {
 			$id = '';
 		}
@@ -87,6 +99,10 @@ class NavWalker extends Walker_Nav_Menu {
 
 
 	public function link_attributes( array $atts, WP_Post $item, stdClass $args, int $depth ): array {
+
+		if ( ! $args->walker instanceof $this ) {
+			return $atts;
+		}
 
 		$atts = array_merge( $atts, $this->attributes( $item, $args ) );
 
