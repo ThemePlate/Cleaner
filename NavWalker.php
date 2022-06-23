@@ -60,7 +60,7 @@ class NavWalker extends Walker_Nav_Menu {
 	}
 
 
-	public function css_class( array $classes, WP_Post $item, stdClass $args, int $depth ): array {
+	public function css_class( array $classes, WP_Post $menu_item, stdClass $args, int $depth ): array {
 
 		if ( ! $args->walker instanceof $this ) {
 			return $classes;
@@ -72,7 +72,7 @@ class NavWalker extends Walker_Nav_Menu {
 			$classes[] = $this->classes['has-sub'];
 		}
 
-		if ( isset( $item->current ) ) {
+		if ( isset( $menu_item->current ) ) {
 			$classes[] = $this->classes['active'];
 		}
 
@@ -81,28 +81,28 @@ class NavWalker extends Walker_Nav_Menu {
 	}
 
 
-	public function item_id( string $id, WP_Post $item, stdClass $args, int $depth ): string {
+	public function item_id( string $menu_id, WP_Post $menu_item, stdClass $args, int $depth ): string {
 
 		if ( ! $args->walker instanceof $this ) {
-			return $id;
+			return $menu_id;
 		}
 
-		if ( 'menu-item-' . $item->ID === $id ) {
-			$id = '';
+		if ( 'menu-item-' . $menu_item->ID === $menu_id ) {
+			$menu_id = '';
 		}
 
-		return $id;
+		return $menu_id;
 
 	}
 
 
-	public function link_attributes( array $atts, WP_Post $item, stdClass $args, int $depth ): array {
+	public function link_attributes( array $atts, WP_Post $menu_item, stdClass $args, int $depth ): array {
 
 		if ( ! $args->walker instanceof $this ) {
 			return $atts;
 		}
 
-		$atts = array_merge( $atts, $this->attributes( $item, $args ) );
+		$atts = array_merge( $atts, $this->attributes( $menu_item, $args ) );
 
 		return array_filter( $atts );
 
