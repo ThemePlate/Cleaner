@@ -65,7 +65,7 @@ class NavWalker extends Walker_Nav_Menu {
 			$classes[] = $this->classes['has-sub'];
 		}
 
-		if ( isset( $menu_item->current ) ) {
+		if ( isset( $menu_item->current ) && $menu_item->current ) {
 			$classes[] = $this->classes['active'];
 		}
 
