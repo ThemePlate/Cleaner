@@ -49,10 +49,14 @@ class NavWalker extends Walker_Nav_Menu {
 			return $classes;
 		}
 
-		return array( $this->classes['sub-menu'] );
+		$classes = array( $this->classes['sub-menu'] );
 
+		if ( ! empty( $this->classes['depth'] ) ) {
+			$classes[] = $this->classes['depth'] . $depth;
+		}
+
+		return $classes;
 	}
-
 
 	public function css_class( array $classes, WP_Post $menu_item, stdClass $args, int $depth ): array {
 
