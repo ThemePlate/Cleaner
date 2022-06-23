@@ -19,7 +19,7 @@ if ( ! class_exists( 'Walker_Nav_Menu' ) ) {
 
 class NavWalker extends Walker_Nav_Menu {
 
-	private array $defaults = array(
+	public const DEFAULTS = array(
 		'sub-menu' => 'sub-menu',
 		'has-sub'  => 'has-sub',
 		'active'   => 'active',
@@ -27,14 +27,12 @@ class NavWalker extends Walker_Nav_Menu {
 	);
 
 	public array $classes = array();
-	public array $class   = array();
-
-	public int $priority = 0;
+	public int $priority  = 0;
 
 
 	public function __construct() {
 
-		$this->classes = array_merge( $this->defaults, $this->class, $this->classes );
+		$this->classes = array_merge( self::DEFAULTS, $this->classes );
 
 		add_filter( 'nav_menu_submenu_css_class', array( $this, 'submenu_css_class' ), $this->priority, 3 );
 		add_filter( 'nav_menu_css_class', array( $this, 'css_class' ), $this->priority, 4 );
