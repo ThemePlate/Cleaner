@@ -24,6 +24,7 @@ class NavWalker extends Walker_Nav_Menu {
 		'has-sub'  => 'has-sub',
 		'active'   => 'active',
 		'item'     => '',
+		'depth'    => '',
 	);
 
 	public array $classes = array();
@@ -67,6 +68,10 @@ class NavWalker extends Walker_Nav_Menu {
 
 		if ( isset( $menu_item->current ) && $menu_item->current ) {
 			$classes[] = $this->classes['active'];
+		}
+
+		if ( ! empty( $this->classes['depth'] ) ) {
+			$classes[] = $this->classes['depth'] . $depth;
 		}
 
 		return array_filter( $classes );
