@@ -21,9 +21,6 @@
 	"require": {
 		"php": "^7.4|^8.0"
 	},
-	"suggest": {
-		"themeplate/navwalker": "^1.0"
-	},
 	"require-dev": {
 		"themeplate/tester": "^2.0"
 	},
