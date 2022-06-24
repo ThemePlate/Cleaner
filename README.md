@@ -36,7 +36,7 @@ class Clean_Navbar extends ThemePlate\NavWalker {
 #### Bootstrap Navbar (with dropdowns)
 
 ```php
-class Clean_Navbar extends ThemePlate\NavWalker {
+class Boostrap_Navbar extends ThemePlate\NavWalker {
 	public array $classes = array(
 		'sub-menu' => 'dropdown-menu',
 		'has-sub'  => 'dropdown',
@@ -54,7 +54,7 @@ class Clean_Navbar extends ThemePlate\NavWalker {
 			$atts['aria-haspopup'] = 'true';
 		}
 
-		if ( $item->current ) {
+		if ( isset( $item->current ) && $item->current ) {
 			$atts['class'] .= ' active';
 		}
 
@@ -63,10 +63,18 @@ class Clean_Navbar extends ThemePlate\NavWalker {
 }
 ```
 
-#### Complex (more control?)
+#### Full control (override properties and methods)
 
 ```php
-class Clean_Navbar extends ThemePlate\NavWalker {
+class Custom_Walker extends ThemePlate\NavWalker {
+	public const FALLBACK = array(
+		'Please add',
+		'some menu',
+		'items here',
+	);
+
+	public int $priority  = 9999;
+
 	public function submenu_css_class( array $classes, stdClass $args, int $depth ): array {
 		$classes[] = 'sub-' . $depth;
 
@@ -74,7 +82,7 @@ class Clean_Navbar extends ThemePlate\NavWalker {
 	}
 
 	public function css_class( array $classes, WP_Post $menu_item, stdClass $args, int $depth ): array {
-		if ( '_blank' === $item->target ) {
+		if ( '_blank' === $menu_item->target ) {
 			$classes[] = 'external';
 		}
 
@@ -82,15 +90,15 @@ class Clean_Navbar extends ThemePlate\NavWalker {
 	}
 
 	public function item_id( string $menu_id, WP_Post $menu_item, stdClass $args, int $depth ): string {
-		if ( 10 === $item->ID ) {
-			$id = 'i-ten';
+		if ( 10 === $menu_item->ID ) {
+			$menu_id = 'i-ten';
 		}
 
-		return $id;
+		return $menu_id;
 	}
 
 	public function link_attributes( array $atts, WP_Post $menu_item, stdClass $args, int $depth ): array {
-		if ( in_array( 'icon', $item->classes, true ) ) {
+		if ( in_array( 'icon', $menu_item->classes, true ) ) {
 			$atts['aria-hidden'] = true;
 		}
 
