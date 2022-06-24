@@ -11,21 +11,7 @@ namespace ThemePlate;
 
 class Cleaner {
 
-	protected static self $instance;
-
-
-	public static function instance(): Cleaner {
-
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-
-	}
-
-
-	protected function __construct() {
+	public static function init(): void {
 
 		foreach ( self::features() as $feature ) {
 			$feature->register();
