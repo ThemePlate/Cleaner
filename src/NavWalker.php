@@ -27,6 +27,12 @@ class NavWalker extends Walker_Nav_Menu {
 		'depth'    => '',
 	);
 
+	public const FALLBACK = array(
+		'Click here',
+		'to add',
+		'a menu',
+	);
+
 	public array $classes = array();
 	public int $priority  = 0;
 
@@ -145,12 +151,28 @@ class NavWalker extends Walker_Nav_Menu {
 			$output .= ' class="' . $args['menu_class'] . '"';
 		}
 
-		$output    .= '>';
-		$admin_url  = admin_url( 'nav-menus.php' );
-		$output    .= '<li><a href="' . esc_url( $admin_url ) . '" target="_blank">Click here</a></li>';
-		$output    .= '<li><a href="' . esc_url( $admin_url ) . '" target="_blank">to add</a></li>';
-		$output    .= '<li><a href="' . esc_url( $admin_url ) . '" target="_blank">a menu</a></li>';
-		$output    .= '</ul>';
+		$output .= '>';
+		$classes = array();
+
+		if ( $args['walker'] instanceof self ) {
+			$classes = array( $args['walker']->classes['item'] );
+			$classes = array_filter( $classes );
+
+			if ( ! empty( $args['walker']->classes['depth'] ) ) {
+				$classes[] = $args['walker']->classes['depth'] . 0;
+			}
+		}
+
+		foreach ( self::FALLBACK as $link_text ) {
+			$output .= sprintf(
+				'<li%1$s><a href="%2$s" target="_blank">%3$s</a></li>',
+				$classes ? ' class="' . implode( ' ', $classes ) . '"' : '',
+				admin_url( 'nav-menus.php' ),
+				$link_text,
+			);
+		}
+
+		$output .= '</ul>';
 
 		if ( $args['container'] ) {
 			$output .= '</' . $args['container'] . '>';
