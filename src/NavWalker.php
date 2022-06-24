@@ -145,11 +145,12 @@ class NavWalker extends Walker_Nav_Menu {
 			$output .= ' class="' . $args['menu_class'] . '"';
 		}
 
-		$output .= '>';
-		$output .= '<li><a href="' . esc_url( admin_url( 'nav-menus.php' ) ) . '">Click here</a></li>';
-		$output .= '<li><a href="' . esc_url( admin_url( 'nav-menus.php' ) ) . '">to add</a></li>';
-		$output .= '<li><a href="' . esc_url( admin_url( 'nav-menus.php' ) ) . '">a menu</a></li>';
-		$output .= '</ul>';
+		$output    .= '>';
+		$admin_url  = admin_url( 'nav-menus.php' );
+		$output    .= '<li><a href="' . esc_url( $admin_url ) . '" target="_blank">Click here</a></li>';
+		$output    .= '<li><a href="' . esc_url( $admin_url ) . '" target="_blank">to add</a></li>';
+		$output    .= '<li><a href="' . esc_url( $admin_url ) . '" target="_blank">a menu</a></li>';
+		$output    .= '</ul>';
 
 		if ( $args['container'] ) {
 			$output .= '</' . $args['container'] . '>';

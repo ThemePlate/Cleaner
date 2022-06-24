@@ -1,7 +1,5 @@
 # ThemePlate Cleaner
 
-> A markup cleaner
-
 ## Usage
 
 ```php
