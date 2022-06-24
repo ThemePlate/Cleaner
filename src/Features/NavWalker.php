@@ -3,7 +3,7 @@
 namespace ThemePlate\Cleaner\Features;
 
 use ThemePlate\Cleaner\BaseFeature;
-use ThemePlate\NavWalker as ThemePlateNavWalker;
+use ThemePlate\Cleaner\NavWalker as ThemePlateNavWalker;
 
 class NavWalker extends BaseFeature {
 
@@ -33,7 +33,7 @@ class NavWalker extends BaseFeature {
 			}
 
 			if ( $args['walker'] instanceof ThemePlateNavWalker && 'wp_page_menu' === $args['fallback_cb'] ) {
-				$args['fallback_cb'] = '\ThemePlate\NavWalker::fallback';
+				$args['fallback_cb'] = '\ThemePlate\Cleaner\NavWalker::fallback';
 			}
 		}
 

@@ -7,7 +7,7 @@
  * @since 0.1.0
  */
 
-namespace ThemePlate;
+namespace ThemePlate\Cleaner;
 
 use stdClass;
 use Walker_Nav_Menu;
