@@ -27,7 +27,7 @@ class ExtraStyles extends BaseFeature {
 	}
 
 
-	public function tag_cloud_inline_style( $tag_string ) {
+	public function tag_cloud_inline_style( string $tag_string ): string {
 
 		return preg_replace( '/style="font-size:.+pt;"/', '', $tag_string );
 

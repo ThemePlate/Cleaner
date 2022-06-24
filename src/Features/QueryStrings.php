@@ -32,7 +32,7 @@ class QueryStrings extends BaseFeature {
 	}
 
 
-	public function query_strings( $src ) {
+	public function query_strings( string $src ): string {
 
 		return remove_query_arg( 'ver', $src );
 

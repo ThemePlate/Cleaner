@@ -11,21 +11,21 @@ namespace ThemePlate;
 
 class Cleaner {
 
-	private static $_instance;
+	protected static self $instance;
 
 
-	public static function instance() {
+	public static function instance(): Cleaner {
 
-		if ( ! isset( self::$_instance ) ) {
-			self::$_instance = new self();
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
 		}
 
-		return self::$_instance;
+		return self::$instance;
 
 	}
 
 
-	private function __construct() {
+	protected function __construct() {
 
 		foreach ( self::features() as $feature ) {
 			$feature->register();
@@ -34,7 +34,7 @@ class Cleaner {
 	}
 
 
-	public static function features() {
+	public static function features(): array {
 
 		$list = array();
 

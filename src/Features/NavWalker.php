@@ -21,7 +21,7 @@ class NavWalker extends BaseFeature {
 	}
 
 
-	public function clean_walker( $args ) {
+	public function clean_walker( array $args ): array {
 
 		if ( empty( $args['container_class'] ) && empty( $args['container_id'] ) ) {
 			$args['container'] = false;

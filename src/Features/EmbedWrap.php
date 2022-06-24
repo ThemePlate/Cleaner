@@ -21,14 +21,14 @@ class EmbedWrap extends BaseFeature {
 	}
 
 
-	public function embed_wrap( $cache, $url, $attr ): string {
+	public function embed_wrap( string $cache, string $url, array $attr ): string {
 
 		return '<div class="embed-responsive embed-responsive-' . $this->calculate_ratio( $attr ) . '">' . $cache . '</div>';
 
 	}
 
 
-	private function calculate_ratio( $attr ): string {
+	protected function calculate_ratio( array $attr ): string {
 
 		$ratio    = '1by1';
 		$dividend = $attr['width'];

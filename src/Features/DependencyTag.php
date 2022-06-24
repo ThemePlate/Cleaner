@@ -32,7 +32,7 @@ class DependencyTag extends BaseFeature {
 	}
 
 
-	public function style_tag( $input ): string {
+	public function style_tag( string $input ): string {
 
 		preg_match_all( "!<link rel='stylesheet'\s?(id='[^']+')?\s+href='(\S+)'\s?(type='text/css')?\s+media='(.*)' />!", $input, $matches ); // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet
 		// Only display media if it is meaningful
@@ -46,7 +46,7 @@ class DependencyTag extends BaseFeature {
 	}
 
 
-	public function script_tag( $input ): string {
+	public function script_tag( string $input ): string {
 
 		$input = preg_replace( "/ id='[^']+'/", '', $input );
 

@@ -28,7 +28,7 @@ class UnnecessaryClass extends BaseFeature {
 	}
 
 
-	public function body_class( $classes ) {
+	public function body_class( array $classes ): array {
 
 		$match  = '(^(postid|attachmentid|page-id|parent-pageid|category|tag|term)-\d+$|(attachment|page-parent|page-child)$)';
 		$match .= '|(^(page|post|single|category|tag|archive|post-type-archive)$)';
@@ -44,7 +44,7 @@ class UnnecessaryClass extends BaseFeature {
 	}
 
 
-	public function post_class( $classes ) {
+	public function post_class( array $classes ): array {
 
 		$match = '/(post-\d+$|(type|status|format)-[\w-]+$)/';
 
