@@ -33,7 +33,7 @@ class NavWalker extends BaseFeature {
 			}
 
 			if ( $args['walker'] instanceof ThemePlateNavWalker && 'wp_page_menu' === $args['fallback_cb'] ) {
-				$args['fallback_cb'] = '\ThemePlate\Cleaner\NavWalker::fallback';
+				$args['fallback_cb'] = array( ThemePlateNavWalker::class, 'fallback' );
 			}
 		}
 

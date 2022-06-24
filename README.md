@@ -2,6 +2,8 @@
 
 > A markup cleaner
 
+## Usage
+
 ```php
 add_action( 'after_setup_theme', array( 'ThemePlate\Cleaner', 'instance' ) );
 
@@ -15,32 +17,63 @@ add_theme_support( 'tpc_embed_wrap' );
 add_theme_support( 'tpc_nav_walker' );
 ```
 
-## Custom clean navwalker
+### Custom clean navwalker
 
-### Simplest (need custom classes)
+#### Simplest (need custom classes)
 
 ```php
 class Clean_Navbar extends ThemePlate\NavWalker {
-	public $classes = array(
-		'sub-menu' => 'dropdown-menu',
-		'has-sub'  => 'dropdown',
-		'active'   => 'active',
-		'item'     => 'nav-item',
+	public array $classes = array(
+		'sub-menu' => 'sub-menu-list',
+		'has-sub'  => 'has-children',
+		'active'   => 'current-item',
+		'item'     => 'menu-item',
+		'depth'    => 'level-',
 	);
 }
 ```
 
-### Complex (more control?)
+#### Bootstrap Navbar (with dropdowns)
 
 ```php
 class Clean_Navbar extends ThemePlate\NavWalker {
-	public function submenu_css_class( $classes, $args, $depth ) {
+	public array $classes = array(
+		'sub-menu' => 'dropdown-menu',
+		'has-sub'  => 'dropdown',
+		'active'   => '',
+		'item'     => 'nav-item',
+		'depth'    => '',
+	);
+
+	public function attributes( $atts, $item, $args, $depth ) {
+		$atts['class'] = 'nav-link';
+
+		if ( $args->walker->has_children ) {
+			$atts['class']        .= ' dropdown-toggle';
+			$atts['data-toggle']   = 'dropdown';
+			$atts['aria-haspopup'] = 'true';
+		}
+
+		if ( $item->current ) {
+			$atts['class'] .= ' active';
+		}
+
+		return $atts;
+	}
+}
+```
+
+#### Complex (more control?)
+
+```php
+class Clean_Navbar extends ThemePlate\NavWalker {
+	public function submenu_css_class( array $classes, stdClass $args, int $depth ): array {
 		$classes[] = 'sub-' . $depth;
 
 		return $classes;
 	}
 
-	public function css_class( $classes, $item, $args ) {
+	public function css_class( array $classes, WP_Post $menu_item, stdClass $args, int $depth ): array {
 		if ( '_blank' === $item->target ) {
 			$classes[] = 'external';
 		}
@@ -48,7 +81,7 @@ class Clean_Navbar extends ThemePlate\NavWalker {
 		return $classes;
 	}
 
-	public function item_id( $id, $item, $args, $depth ) {
+	public function item_id( string $menu_id, WP_Post $menu_item, stdClass $args, int $depth ): string {
 		if ( 10 === $item->ID ) {
 			$id = 'i-ten';
 		}
@@ -56,7 +89,7 @@ class Clean_Navbar extends ThemePlate\NavWalker {
 		return $id;
 	}
 
-	public function link_attributes( $atts, $item, $args, $depth ) {
+	public function link_attributes( array $atts, WP_Post $menu_item, stdClass $args, int $depth ): array {
 		if ( in_array( 'icon', $item->classes, true ) ) {
 			$atts['aria-hidden'] = true;
 		}
