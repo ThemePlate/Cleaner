@@ -73,8 +73,6 @@ class Custom_Walker extends ThemePlate\NavWalker {
 		'items here',
 	);
 
-	public int $priority  = 9999;
-
 	public function submenu_css_class( array $classes, stdClass $args, int $depth ): array {
 		$classes[] = 'sub-' . $depth;
 

@@ -14,10 +14,10 @@ class NavWalkerTest extends WP_UnitTestCase {
 	public function test_default_instance(): void {
 		$walker = new NavWalker();
 
-		$this->assertSame( 0, has_filter( 'nav_menu_submenu_css_class', array( $walker, 'submenu_css_class' ) ) );
-		$this->assertSame( 0, has_filter( 'nav_menu_css_class', array( $walker, 'css_class' ) ) );
-		$this->assertSame( 0, has_filter( 'nav_menu_item_id', array( $walker, 'item_id' ) ) );
-		$this->assertSame( 0, has_filter( 'nav_menu_link_attributes', array( $walker, 'link_attributes' ) ) );
+		$this->assertSame( PHP_INT_MAX, has_filter( 'nav_menu_submenu_css_class', array( $walker, 'submenu_css_class' ) ) );
+		$this->assertSame( PHP_INT_MAX, has_filter( 'nav_menu_css_class', array( $walker, 'css_class' ) ) );
+		$this->assertSame( PHP_INT_MAX, has_filter( 'nav_menu_item_id', array( $walker, 'item_id' ) ) );
+		$this->assertSame( PHP_INT_MAX, has_filter( 'nav_menu_link_attributes', array( $walker, 'link_attributes' ) ) );
 	}
 
 	public function test_custom_classes(): void {

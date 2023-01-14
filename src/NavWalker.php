@@ -34,17 +34,16 @@ class NavWalker extends Walker_Nav_Menu {
 	);
 
 	public array $classes = array();
-	public int $priority  = 0;
 
 
 	public function __construct() {
 
 		$this->classes = array_merge( self::DEFAULTS, $this->classes );
 
-		add_filter( 'nav_menu_submenu_css_class', array( $this, 'submenu_css_class' ), $this->priority, 3 );
-		add_filter( 'nav_menu_css_class', array( $this, 'css_class' ), $this->priority, 4 );
-		add_filter( 'nav_menu_item_id', array( $this, 'item_id' ), $this->priority, 4 );
-		add_filter( 'nav_menu_link_attributes', array( $this, 'link_attributes' ), $this->priority, 4 );
+		add_filter( 'nav_menu_submenu_css_class', array( $this, 'submenu_css_class' ), PHP_INT_MAX, 3 );
+		add_filter( 'nav_menu_css_class', array( $this, 'css_class' ), PHP_INT_MAX, 4 );
+		add_filter( 'nav_menu_item_id', array( $this, 'item_id' ), PHP_INT_MAX, 4 );
+		add_filter( 'nav_menu_link_attributes', array( $this, 'link_attributes' ), PHP_INT_MAX, 4 );
 
 	}
 
@@ -62,7 +61,9 @@ class NavWalker extends Walker_Nav_Menu {
 		}
 
 		return $classes;
+
 	}
+
 
 	public function css_class( array $classes, WP_Post $menu_item, stdClass $args, int $depth ): array {
 
