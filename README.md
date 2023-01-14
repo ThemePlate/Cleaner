@@ -3,7 +3,7 @@
 ## Usage
 
 ```php
-add_action( 'init', array( 'ThemePlate\Cleaner', 'instance' ) );
+add_action( 'init', array( 'ThemePlate\Cleaner', 'init' ) );
 
 add_action( 'after_setup_theme', function() {
 	add_theme_support( 'tpc_wp_head' );
@@ -74,12 +74,20 @@ class Custom_Walker extends ThemePlate\NavWalker {
 	);
 
 	public function submenu_css_class( array $classes, stdClass $args, int $depth ): array {
+		if ( ! $args->walker instanceof $this ) {
+			return $classes;
+		}
+
 		$classes[] = 'sub-' . $depth;
 
 		return $classes;
 	}
 
 	public function css_class( array $classes, WP_Post $menu_item, stdClass $args, int $depth ): array {
+		if ( ! $args->walker instanceof $this ) {
+			return $classes;
+		}
+
 		if ( '_blank' === $menu_item->target ) {
 			$classes[] = 'external';
 		}
@@ -88,6 +96,10 @@ class Custom_Walker extends ThemePlate\NavWalker {
 	}
 
 	public function item_id( string $menu_id, WP_Post $menu_item, stdClass $args, int $depth ): string {
+		if ( ! $args->walker instanceof $this ) {
+			return $menu_id;
+		}
+
 		if ( 10 === $menu_item->ID ) {
 			$menu_id = 'i-ten';
 		}
@@ -96,6 +108,10 @@ class Custom_Walker extends ThemePlate\NavWalker {
 	}
 
 	public function link_attributes( array $atts, WP_Post $menu_item, stdClass $args, int $depth ): array {
+		if ( ! $args->walker instanceof $this ) {
+			return $atts;
+		}
+
 		if ( in_array( 'icon', $menu_item->classes, true ) ) {
 			$atts['aria-hidden'] = true;
 		}
