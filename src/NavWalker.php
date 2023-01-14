@@ -122,10 +122,6 @@ class NavWalker extends Walker_Nav_Menu {
 
 	public static function fallback( $args ) {
 
-		if ( ! current_user_can( 'edit_theme_options' ) ) {
-			return false;
-		}
-
 		$output = '';
 
 		if ( $args['container'] ) {
@@ -164,11 +160,20 @@ class NavWalker extends Walker_Nav_Menu {
 			}
 		}
 
-		foreach ( self::FALLBACK as $link_text ) {
+		$links = static::FALLBACK;
+
+		if ( ! is_array( $links ) ) {
+			$links = (array) $links;
+		}
+
+		$links[] = 'theme_location: ' . $args['theme_location'];
+
+		foreach ( $links as $link_text ) {
 			$output .= sprintf(
-				'<li%1$s><a href="%2$s" target="_blank">%3$s</a></li>',
+				'<li%1$s><a href="%2$s" target="%3$s">%4$s</a></li>',
 				$classes ? ' class="' . implode( ' ', $classes ) . '"' : '',
 				admin_url( 'nav-menus.php' ),
+				current_user_can( 'edit_theme_options' ) ? '_self' : '_blank',
 				$link_text,
 			);
 		}
