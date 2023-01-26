@@ -26,7 +26,7 @@ abstract class BaseFeature {
 
 	}
 
-	protected function enabled( string $option ): bool {
+	public function enabled( string $option ): bool {
 
 		$args = $this->arguments();
 
