@@ -16,13 +16,14 @@ class BaseFeatureTest extends WP_UnitTestCase {
 			'with nothing passed'   => array( array(), true ),
 			'with test in an array' => array( array( 'test' ), true ),
 			'with no test in array' => array( array( 'again' ), false ),
+			'with test as a string' => array( 'test', true ),
 		);
 	}
 
 	/**
 	 * @dataProvider for_feature_option_is_enabled
 	 */
-	public function test_feature_option_is_enabled( array $args, bool $passed ): void {
+	public function test_feature_option_is_enabled( $args, bool $passed ): void {
 		$feature = new class() extends BaseFeature {
 			public function key(): string {
 				return 'feature';
