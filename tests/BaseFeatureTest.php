@@ -19,6 +19,8 @@ class BaseFeatureTest extends WP_UnitTestCase {
 		parent::setUp();
 
 		$this->feature = new class() extends BaseFeature {
+			public const PREFIX = 'tpc_tester_';
+
 			public function key(): string {
 				return 'feature';
 			}
@@ -30,11 +32,11 @@ class BaseFeatureTest extends WP_UnitTestCase {
 	protected function tearDown(): void {
 		parent::tearDown();
 
-		remove_theme_support( BaseFeature::PREFIX . 'feature' );
+		remove_theme_support( $this->feature::PREFIX . 'feature' );
 	}
 
 	public function test_feature_option_is_enabled_with_nothing_passed(): void {
-		add_theme_support( BaseFeature::PREFIX . 'feature' );
+		add_theme_support( $this->feature::PREFIX . 'feature' );
 		$this->feature->register();
 
 		$this->assertTrue( $this->feature->enabled( 'test' ) );
@@ -47,7 +49,7 @@ class BaseFeatureTest extends WP_UnitTestCase {
 	}
 
 	protected function do_feature_register_and_asserts( array $args, bool $passed ): void {
-		add_theme_support( BaseFeature::PREFIX . 'feature', ...$args );
+		add_theme_support( $this->feature::PREFIX . 'feature', ...$args );
 		$this->feature->register();
 
 		$enabled = $this->feature->enabled( 'test' );

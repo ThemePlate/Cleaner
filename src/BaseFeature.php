@@ -2,11 +2,11 @@
 
 namespace ThemePlate\Cleaner;
 
-abstract class BaseFeature {
+abstract class BaseFeature implements FeatureInterface {
 
 	public const PREFIX = 'tpc_';
 
-	public function register() {
+	public function register(): void {
 
 		if ( current_theme_supports( $this->feature() ) ) {
 			$this->action();
@@ -22,7 +22,7 @@ abstract class BaseFeature {
 
 	public function feature(): string {
 
-		return self::PREFIX . $this->key();
+		return static::PREFIX . $this->key();
 
 	}
 
