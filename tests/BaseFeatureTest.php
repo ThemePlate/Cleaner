@@ -11,41 +11,72 @@ use ThemePlate\Cleaner\BaseFeature;
 use WP_UnitTestCase;
 
 class BaseFeatureTest extends WP_UnitTestCase {
-	public function for_feature_option_is_enabled(): array {
-		return array(
-			'with nothing passed'   => array( array(), true ),
-			'with test in an array' => array( array( 'test' ), true ),
-			'with no test in array' => array( array( 'again' ), false ),
-			'with test as a string' => array( 'test', true ),
-		);
-	}
+	use DataProvider;
 
-	/**
-	 * @dataProvider for_feature_option_is_enabled
-	 */
-	public function test_feature_option_is_enabled( $args, bool $passed ): void {
-		$feature = new class() extends BaseFeature {
+	protected BaseFeature $feature;
+
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->feature = new class() extends BaseFeature {
 			public function key(): string {
 				return 'feature';
 			}
 
 			public function action(): void {}
 		};
+	}
 
-		if ( empty( $args ) ) {
-			add_theme_support( 'tpc_feature' );
-		} else {
-			add_theme_support( 'tpc_feature', $args );
-		}
+	protected function tearDown(): void {
+		parent::tearDown();
 
-		$feature->register();
+		remove_theme_support( BaseFeature::PREFIX . 'feature' );
+	}
 
-		$enabled = $feature->enabled( 'test' );
+	public function test_feature_option_is_enabled_with_nothing_passed(): void {
+		add_theme_support( BaseFeature::PREFIX . 'feature' );
+		$this->feature->register();
+
+		$this->assertTrue( $this->feature->enabled( 'test' ) );
+	}
+
+	public function test_feature_option_is_totally_not_supported(): void {
+		$this->feature->register();
+
+		$this->assertFalse( $this->feature->enabled( 'test' ) );
+	}
+
+	protected function do_feature_register_and_asserts( array $args, bool $passed ): void {
+		add_theme_support( BaseFeature::PREFIX . 'feature', ...$args );
+		$this->feature->register();
+
+		$enabled = $this->feature->enabled( 'test' );
 
 		if ( $passed ) {
 			$this->assertTrue( $enabled );
 		} else {
 			$this->assertFalse( $enabled );
 		}
+	}
+
+	/**
+	 * @dataProvider for_feature_option_is_enabled_with_arrays
+	 */
+	public function test_feature_option_is_enabled_with_arrays( array $args, bool $passed ): void {
+		$this->do_feature_register_and_asserts( array( $args ), $passed );
+	}
+
+	/**
+	 * @dataProvider for_feature_option_is_enabled_with_strings
+	 */
+	public function test_feature_option_is_enabled_with_strings( string $args, bool $passed ): void {
+		$this->do_feature_register_and_asserts( array( $args ), $passed );
+	}
+
+	/**
+	 * @dataProvider for_feature_option_is_enabled_with_multi_argument
+	 */
+	public function test_feature_option_is_enabled_with_multi_argument( $arg1, $arg2, bool $passed ): void {
+		$this->do_feature_register_and_asserts( array( $arg1, $arg2 ), $passed );
 	}
 }

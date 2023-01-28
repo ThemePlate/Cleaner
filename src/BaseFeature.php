@@ -30,15 +30,28 @@ abstract class BaseFeature {
 
 		$args = $this->arguments();
 
-		if ( empty( $args[0] ) ) {
-			return true;
+		if ( is_bool( $args ) ) {
+			return $args;
 		}
 
-		if ( is_array( $args[0] ) ) {
-			return in_array( $option, $args[0], true );
+		foreach ( $args as $arg ) {
+			if (
+				(
+					is_array( $arg ) &&
+					(
+						in_array( $option, $arg, true ) ||
+						array_key_exists( $option, $arg )
+					)
+				) || (
+					is_string( $arg ) &&
+					$arg === $option
+				)
+			) {
+				return true;
+			}
 		}
 
-		return $args[0] === $option;
+		return false;
 
 	}
 
