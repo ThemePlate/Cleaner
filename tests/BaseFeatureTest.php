@@ -40,14 +40,12 @@ class BaseFeatureTest extends WP_UnitTestCase {
 
 		$feature->register();
 
+		$enabled = $feature->enabled( 'test' );
+
 		if ( $passed ) {
-			if ( empty( $args ) ) {
-				$this->assertTrue( $feature->enabled( '' ) );
-			} else {
-				$this->assertTrue( $feature->enabled( 'test' ) );
-			}
+			$this->assertTrue( $enabled );
 		} else {
-			$this->assertFalse( $feature->enabled( 'test' ) );
+			$this->assertFalse( $enabled );
 		}
 	}
 }
