@@ -6,6 +6,12 @@ use ThemePlate\Cleaner\BaseFeature;
 
 class DefaultViews extends BaseFeature {
 
+	public const TAGS = array(
+		'search',
+		'tax',
+	);
+
+
 	public function key(): string {
 
 		return 'default_views';
@@ -24,12 +30,7 @@ class DefaultViews extends BaseFeature {
 
 		global $wp_query;
 
-		$tags = array(
-			'search',
-			'tax',
-		);
-
-		foreach ( $tags as $tag ) {
+		foreach ( static::TAGS as $tag ) {
 			$callback = 'is_' . $tag;
 
 			if ( call_user_func( $callback ) && $this->enabled( $tag ) ) {
