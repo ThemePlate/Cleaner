@@ -14,6 +14,8 @@ add_action( 'after_setup_theme', function() {
 	add_theme_support( 'tpc_extra_styles' );
 	add_theme_support( 'tpc_embed_wrap' );
 	add_theme_support( 'tpc_nav_walker' );
+	add_theme_support( 'tpc_archive_views' );
+	add_theme_support( 'tpc_default_views' );
 } );
 ```
 
@@ -45,13 +47,13 @@ class Boostrap_Navbar extends ThemePlate\NavWalker {
 		'depth'    => '',
 	);
 
-	public function attributes( $atts, $item, $args, $depth ) {
+	public function attributes( $atts, $item, $args ) {
 		$atts['class'] = 'nav-link';
 
 		if ( $args->walker->has_children ) {
-			$atts['class']        .= ' dropdown-toggle';
-			$atts['data-toggle']   = 'dropdown';
-			$atts['aria-haspopup'] = 'true';
+			$atts['class']         .= ' dropdown-toggle';
+			$atts['data-bs-toggle'] = 'dropdown';
+			$atts['aria-haspopup']  = 'true';
 		}
 
 		if ( isset( $item->current ) && $item->current ) {
