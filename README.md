@@ -16,6 +16,7 @@ add_action( 'after_setup_theme', function() {
 	add_theme_support( 'tpc_nav_walker' );
 	add_theme_support( 'tpc_archive_views' );
 	add_theme_support( 'tpc_default_views' );
+	add_theme_support( 'tpc_footer_scripts' );
 } );
 ```
 
